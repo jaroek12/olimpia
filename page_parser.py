@@ -10,8 +10,9 @@ class PageParser:
 
     def __init__(self):
         self.page = BeautifulSoup(requests.get(URL).text, "html.parser")
-        self.score_table = self._get_score_table()
         self.stats = []
+        self._create_teams_stats_list()
+        print(self.stats)
 
     def _get_score_table(self) -> list:
         score_table = self.page.find_all('table')[1].find_all('table')[1].find_all('tr')[4:20]
@@ -29,7 +30,8 @@ class PageParser:
 
         self.stats.append(team_stats)
 
-    def print_output(self):
-        for team in self.score_table:
+    def _create_teams_stats_list(self) -> list:
+        score_table = self._get_score_table()
+        for team in score_table:
             self._get_team_stats(str(team))
-        print(self.stats)
+
